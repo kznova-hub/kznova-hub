@@ -1,36 +1,52 @@
 repeat wait() until game:IsLoaded()
 
-local success, err = pcall(function()
-
 getgenv().Settings = {
     ["Raid Settings"] = {
-        Enabled = true,
-        Difficulty = 5000
+        Enabled = false,
+        Difficulty = 5000,
+        OpenLeprechaunChest = false,
+        ["Boss Settings"] = { Enabled = false },
+        ["Egg Settings"] = { Enabled = false }
     }
 }
 
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+-- Iron UI
+local IronUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/Iron-UI-Library/main/Iron-UI.lua"))()
 
-local Window = Rayfield:CreateWindow({
-   Name = "KZNOVA HUB",
-   LoadingTitle = "KZNOVA HUB",
-   LoadingSubtitle = "Loading...",
-   ConfigurationSaving = {
-      Enabled = false
-   }
+local Window = IronUI:CreateWindow({
+    Title = "KZNOVA HUB",
+    Size = UDim2.new(0, 400, 0, 300)
 })
 
-local Tab = Window:CreateTab("Main")
+-- RAID TAB
+local RaidTab = Window:AddTab("Raid")
 
-Tab:CreateButton({
-   Name = "Start Script",
-   Callback = function()
-       loadstring(game:HttpGet("https://raw.githubusercontent.com/tianhainrk/ps99/refs/heads/main/ps99.lua"))()
-   end,
-})
-
+RaidTab:AddToggle("Enable Raid", false, function(v)
+    getgenv().Settings["Raid Settings"].Enabled = v
 end)
 
-if not success then
-    warn(err)
-end
+RaidTab:AddSlider("Difficulty", 0, 25000, 5000, function(v)
+    getgenv().Settings["Raid Settings"].Difficulty = v
+end)
+
+RaidTab:AddToggle("Open Chest", false, function(v)
+    getgenv().Settings["Raid Settings"].OpenLeprechaunChest = v
+end)
+
+-- BOSS TAB
+local BossTab = Window:AddTab("Boss")
+
+BossTab:AddToggle("Enable Boss", false, function(v)
+    getgenv().Settings["Raid Settings"]["Boss Settings"].Enabled = v
+end)
+
+-- EGG TAB
+local EggTab = Window:AddTab("Egg")
+
+EggTab:AddToggle("Enable Egg", false, function(v)
+    getgenv().Settings["Raid Settings"]["Egg Settings"].Enabled = v
+end)
+
+-- запуск основного скрипта
+task.wait(1)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/tianhainrk/ps99/refs/heads/main/ps99.lua"))()
