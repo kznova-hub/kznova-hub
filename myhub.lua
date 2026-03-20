@@ -13,77 +13,44 @@ getgenv().Settings = {
     }
 }
 
-if game.CoreGui:FindFirstChild("KZNOVA_HUB") then
-    game.CoreGui.KZNOVA_HUB:Destroy()
+if game.CoreGui:FindFirstChild("Rayfield") then
+    game.CoreGui.Rayfield:Destroy()
 end
 
-local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Rayfield/main/source"))()
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "KZNOVA HUB",
-   LoadingTitle = "Loading KZNOVA HUB",
+   LoadingTitle = "KZNOVA HUB",
+   LoadingSubtitle = "by you",
    ConfigurationSaving = {
-       Enabled = true,
-       FolderName = "KZNOVA_HUB"
+      Enabled = false
    }
 })
 
-local RaidTab = Window:CreateTab("Raid")
+local Tab = Window:CreateTab("Main", 4483362458)
 
-RaidTab:CreateToggle({
+Tab:CreateToggle({
    Name = "Enable Raid",
    CurrentValue = true,
-   Callback = function(value)
-       getgenv().Settings["Raid Settings"].Enabled = value
-   end
+   Callback = function(Value)
+       getgenv().Settings["Raid Settings"].Enabled = Value
+   end,
 })
 
-RaidTab:CreateSlider({
+Tab:CreateSlider({
    Name = "Difficulty",
-   Range = {0,10000},
+   Range = {0, 10000},
    Increment = 100,
    CurrentValue = 5000,
-   Callback = function(value)
-       getgenv().Settings["Raid Settings"].Difficulty = value
-   end
+   Callback = function(Value)
+       getgenv().Settings["Raid Settings"].Difficulty = Value
+   end,
 })
 
-local BossTab = Window:CreateTab("Boss")
-
-BossTab:CreateToggle({
-   Name = "Enable Boss",
-   CurrentValue = true,
-   Callback = function(value)
-       getgenv().Settings["Raid Settings"]["Boss Settings"].Enabled = value
-   end
-})
-
-local EggTab = Window:CreateTab("Egg")
-
-EggTab:CreateSlider({
-   Name = "Min Egg Multi",
-   Range = {0,1000},
-   Increment = 10,
-   CurrentValue = 500,
-   Callback = function(value)
-       getgenv().Settings["Raid Settings"]["Egg Settings"].MinimumEggMulti = value
-   end
-})
-
-EggTab:CreateInput({
-   Name = "Lucky Coins (1m)",
-   PlaceholderText = "1m",
-   RemoveTextAfterFocusLost = false,
-   Callback = function(text)
-       getgenv().Settings["Raid Settings"]["Egg Settings"].MinimumLuckyCoins = text
-   end
-})
-
-local MainTab = Window:CreateTab("Main")
-
-MainTab:CreateButton({
-   Name = "START SCRIPT",
+Tab:CreateButton({
+   Name = "Start Script",
    Callback = function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/tianhainrk/ps99/refs/heads/main/ps99.lua"))()
-   end
+   end,
 })
